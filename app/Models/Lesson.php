@@ -7,14 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Lesson extends Model
 {
     protected $fillable = [
-        'schedule_id',
+
         'lesson_date'
     ];
 
-    public function schedule()
-    {
-        return $this->belongsTo(Schedule::class);
-    }
+  public function schedules()
+{
+    return $this->belongsToMany(
+        Schedule::class,
+        'lesson_schedule'
+    );
+}
 
     public function boardImages()
     {

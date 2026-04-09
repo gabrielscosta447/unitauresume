@@ -1,45 +1,45 @@
 <?php
 
+use App\Http\Controllers\AdminRequestController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LessonController;
 use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Inertia\Inertia;
 use App\Models\Course;
-Route::get('/', function () {
 
-    $courses = Course::with([
-        'periods.schedules.subject',
-        'periods.schedules.timeSlot'
-    ])->get()->map(function ($course) {
-        return [
-            'id' => $course->id,
-            'name' => $course->name,
-            'periods' => $course->periods->map(function ($period) {
-                return [
-                    'id' => $period->id,
-                    'number' => $period->number,
-                    'schedules' => $period->schedules->map(function ($schedule) {
-                        return [
-                            'weekday' => $schedule->weekday,
-                            'time' => $schedule->timeSlot->start_time,
-                            'subject' => $schedule->subject->name,
-                        ];
-                    })
-                ];
-            })
-        ];
+
+// tela de solicitação
+Route::get('/admin-request', [AdminRequestController::class, 'create'])
+    ->name('admin.request.form');
+
+Route::post('/admin-request', [AdminRequestController::class, 'store'])
+    ->name('admin.request.store');
+
+
+
+
+Route::get('/', [CourseController::class, 'index'])->name('home');
+Route::middleware(['auth', 'approved.admin'])
+    ->prefix('courses/{course}/periods/{period}')
+    ->group(function () {
+
+      
+
     });
 
-    return Inertia::render('welcome', [
-        'courses' => $courses
-    ]);
-
-})->name('home');
+    Route::post(
+    '/lesson/{lesson}/gerar-resumo',
+    [LessonController::class, 'gerarResumo']
+)->name('lesson.gerarResumo');
 
 Route::middleware([
-    'auth',
+    'auth','approved.admin',
     ValidateSessionWithWorkOS::class,
 ])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+      Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 });
 
 require __DIR__.'/settings.php';

@@ -24,10 +24,13 @@ class Schedule extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function lessons()
-    {
-         return $this->hasMany(Lesson::class); 
-    }
+   public function lessons()
+{
+    return $this->belongsToMany(
+        Lesson::class,
+        'lesson_schedule'
+    );
+}
 
     public function  timeSlot()
     {

@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+    $middleware->alias([
+        'approved.admin' => \App\Http\Middleware\EnsureUserIsApprovedAdmin::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
