@@ -28,7 +28,16 @@ type Lesson = {
     url: string
   }[]
 }
-type Schedule = { weekday: number; time: string; subject: string, lessons: Lesson[] }
+ type Schedule = {
+  id: number,
+  weekday: number
+  time: string
+  subject: string,
+  subject_id: number
+  time_slot_id: number,
+  lessons: Lesson[]
+}
+
 type Period = { id: number; number: number; schedules: Schedule[] }
 type Course = { id: number; name: string; periods: Period[] }
 
