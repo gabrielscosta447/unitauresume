@@ -20,4 +20,7 @@ class CourseController extends Controller
             'courses' => CourseResource::collection($courses)
         ]);
     }
+
+
+
 }

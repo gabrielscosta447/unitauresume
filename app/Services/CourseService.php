@@ -8,9 +8,9 @@ class CourseService
 {
     public function getAll()
     {
-        return Course::with([
-            'periods.schedules.subject',
-            'periods.schedules.timeSlot'
+        return Course::select([
+            'id',
+            'name',
         ])->get();
     }
 }

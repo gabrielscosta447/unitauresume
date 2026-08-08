@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LessonController;
 use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
+use App\Http\Controllers\AdminController;
 use Inertia\Inertia;
 use App\Models\Course;
 
@@ -18,7 +19,8 @@ Route::post('/admin-request', [AdminRequestController::class, 'store'])
     ->name('admin.request.store');
 
 
-
+Route::get('/admin', [AdminController::class, 'index'])
+    ->name('admin');
 
 Route::get('/', [CourseController::class, 'index'])->name('home');
 Route::middleware(['auth', 'approved.admin'])
