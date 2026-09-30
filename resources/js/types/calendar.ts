@@ -1,32 +1,65 @@
-// /types/calendar.ts
-
 export type Schedule = {
-  id: number,
+  id: number
+
+  period_id: number
+
   weekday: number
+
   time: string
-  subject: string,
+
+  subject_name: string
+
   subject_id: number
+
   time_slot_id: number
 }
 
-export type Period = {
-
+export type LessonSchedule = {
   id: number
+}
+
+export type LessonSummary = {
+  content: string
+}
+
+export type Lesson = {
+  id: number
+
+  lesson_date: string
+
+  summary?: LessonSummary | null
+
+  schedules?: LessonSchedule[]
+}
+
+export type Period = {
+  id: number
+
+  course_id: number
+
   number: number
+
   schedules: Schedule[]
 }
 
 export type Course = {
   id: number
+
   name: string
+
   periods: Period[]
 }
 
 export type CalendarEvent = {
-  id: number,
+  id: string
+  schedule_id: number,
   title: string
+
   start: Temporal.ZonedDateTime
+
   end: Temporal.ZonedDateTime
-  description: string,
+
+  description: string
+
   lesson_id: number | null
 }

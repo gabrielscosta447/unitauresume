@@ -3,14 +3,20 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem } from '@/types';
 import CalendarAulas from '@/components/calendar-aulas';
-import type { Course, Period } from '@/types/calendar';
+import type { Course, Period, Lesson } from '@/types/calendar';
 
 interface Props {
     adminRequest: {
-   
         course: Course;
-        period: Period;
         status: 'pending' | 'approved' | 'rejected';
+    };
+
+    selectedPeriod: Period;
+    lessons: Lesson[];
+
+    filters: {
+        start_date: string;
+        end_date: string;
     };
 }
 
@@ -21,21 +27,20 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard({ adminRequest }: Props) {
-    const lessons =
-    adminRequest.period.data.schedules.flatMap(
-        (schedule: { lessons: any; }) => schedule.lessons ?? []
-    )
+export default function Dashboard({
+    adminRequest,
+    selectedPeriod,
+    lessons,
+    filters,
+}: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard do Representante" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
 
-                {/* Cards principais */}
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
 
-                    {/* Curso */}
                     <div className="flex flex-col justify-center rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border">
                         <span className="text-sm text-muted-foreground">
                             Curso
@@ -46,18 +51,16 @@ export default function Dashboard({ adminRequest }: Props) {
                         </span>
                     </div>
 
-                    {/* Período */}
                     <div className="flex flex-col justify-center rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border">
                         <span className="text-sm text-muted-foreground">
                             Período
                         </span>
 
                         <span className="text-2xl font-semibold">
-                            {adminRequest.period.data.number}
+                            {selectedPeriod.number}
                         </span>
                     </div>
 
-                    {/* Status */}
                     <div className="flex flex-col justify-center rounded-xl border border-sidebar-border/70 p-4 dark:border-sidebar-border">
                         <span className="text-sm text-muted-foreground">
                             Status da Solicitação
@@ -80,28 +83,30 @@ export default function Dashboard({ adminRequest }: Props) {
                             {adminRequest.status === 'rejected' && 'Rejeitado'}
                         </span>
                     </div>
-
                 </div>
 
-                {/* Área principal */}
                 <div className="relative flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 p-6 md:min-h-min dark:border-sidebar-border">
 
-                    <h2 className="text-lg font-semibold mb-4">
+                    <h2 className="mb-4 text-lg font-semibold">
                         Painel do Representante
                     </h2>
 
                     <p className="text-muted-foreground">
-                        Aqui você poderá gerenciar o envio das fotos da lousa pra cada aula para a Inteligência Artificial gerar automaticamente o resumo das aulas para os alunos.
+                        Aqui você poderá gerenciar o envio das fotos da lousa
+                        pra cada aula para a Inteligência Artificial gerar
+                        automaticamente o resumo das aulas para os alunos.
                     </p>
 
-              
-                        <div className="my-4">
-                        <CalendarAulas selectedPeriod={adminRequest.period.data}   adminRequest={adminRequest.status === 'approved'} lessons={lessons}/>
-
+                    <div className="my-4">
+                        <CalendarAulas
+                            selectedPeriod={selectedPeriod}
+                            adminRequest={adminRequest.status === 'approved'}
+                            lessons={lessons}
+                           filters={filters}
+                        />
                     </div>
 
                 </div>
-
             </div>
         </AppLayout>
     );

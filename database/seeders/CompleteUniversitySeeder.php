@@ -249,7 +249,7 @@ $courses = [
 1º PERÍODO
 */
 1 => [
-['segunda','19:00','Geografia Analítica'],
+['segunda','19:00','Geometria Analítica'],
 ['terça','19:00','Eletrônica Lógica Digital'],
 ['quarta','19:00','Algoritmos e Lógica de Programação'],
 ['quinta','19:00','Pré-Cálculo'],

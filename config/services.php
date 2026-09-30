@@ -40,5 +40,15 @@ return [
         'secret' => env('WORKOS_API_KEY'),
         'redirect_url' => env('WORKOS_REDIRECT_URL'),
     ],
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+    ],
+    'openrouter' => [
+    'key' => env('OPENROUTER_API_KEY'),
+],
+
+'nvidia' => [
+    'key' => env('NVIDIA_API_KEY'),
+],
 
 ];

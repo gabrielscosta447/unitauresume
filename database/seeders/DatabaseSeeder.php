@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         TimeSlotSeeder::class,
         CompleteUniversitySeeder::class,
-        LessonSummarySeeder::class
+        
 
     ]);
 
